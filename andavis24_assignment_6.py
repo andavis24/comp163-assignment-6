@@ -19,7 +19,6 @@ while True:
     else:
         # Split the entry into 4 parts (name, phone, email, address)
         parts = entry.split("|")
-        # Add this raw contact data to the contacts list
         contacts.append(parts)
 
 # === CLEANING PHASE ===
@@ -35,17 +34,12 @@ for i in contacts:
     # --- Phone cleaning ---
     phone = i[1]
     digits_only = ""
-
-    # Extract only digits from the phone number
     for char in phone:
         if char.isdigit():
             digits_only += char
-
-    # If there are exactly 10 digits, format into (XXX) XXX-XXXX
     if len(digits_only) == 10:
         phone = f"({digits_only[:3]}) {digits_only[3:6]}-{digits_only[6:]}"
     else:
-        # If phone format is incorrect, just strip spaces
         phone = phone.strip()
 
     # --- Email cleaning ---
@@ -56,7 +50,6 @@ for i in contacts:
     # Split address into words and check for state abbreviations
     address_parts = i[3].strip().split()
     formatted_address_parts = []
-
     for part in address_parts:
         # If part is 2 letters and all letters (state), make uppercase
         if len(part) == 2 and part.isalpha():
@@ -64,17 +57,10 @@ for i in contacts:
         else:
             # Otherwise, title-case it
             formatted_address_parts.append(part.title())
-
-    # Rejoin all address parts into one clean string
     address = " ".join(formatted_address_parts)
 
-    # Add cleaned data as a dictionary into the main list
-    cleaned_contacts.append({
-        "name": name,
-        "phone": phone,
-        "email": email,
-        "address": address
-    })
+    # Add cleaned info as a simple list
+    cleaned_contacts.append([name, phone, email, address])
 
 # === OUTPUT PHASE ===
 # Print all sections of the formatted directory
@@ -82,26 +68,25 @@ for i in contacts:
 # --- Contact Directory Section ---
 print("\n=== CONTACT DIRECTORY ===\n")
 
-# Loop through each cleaned contact and display their info
-for i, c in enumerate(cleaned_contacts, start=1):
-    print(f"CONTACT {i}:")
-    print(f"Name:     {c['name']}")
-    print(f"Phone:    {c['phone']}")
-    print(f"Email:    {c['email']}")
-    print(f"Address:  {c['address']}\n")
+count = 1  # Start the counter at 1
+for contact in cleaned_contacts:
+    print(f"CONTACT {count}:")
+    print(f"Name:     {contact[0]}")
+    print(f"Phone:    {contact[1]}")
+    print(f"Email:    {contact[2]}")
+    print(f"Address:  {contact[3]}\n")
+    count += 1  # Increase the counter by 1 for the next contact
 
 # --- Directory Summary Section ---
 print("=== DIRECTORY SUMMARY ===")
 print(f"Total contacts processed: {len(cleaned_contacts)}\n")
 
 # --- Formatted for Printing Section ---
-# Print each contact in “Last, First” format for professional printing
 print("=== FORMATTED FOR PRINTING ===")
-for c in cleaned_contacts:
-    # Split full name to separate last and first names
-    name_parts = c['name'].split()
-    last_name = name_parts[-1]  # Last element is the last name
-    first_names = " ".join(name_parts[:-1])  # Everything before last name
-
+for contact in cleaned_contacts:
+    # Split full name into parts to get last name and first names
+    name_parts = contact[0].split()
+    last_name = name_parts[-1]
+    first_names = " ".join(name_parts[:-1])
     # Align columns using f-string width specifiers
-    print(f"{last_name}, {first_names:<25}{c['phone']:<20}{c['email']}")
+    print(f"{last_name}, {first_names:<25}{contact[1]:<20}{contact[2]}")
