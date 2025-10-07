@@ -39,8 +39,21 @@ for i in contacts:
     else:
         phone = phone.strip()
 
-    cleaned_contacts.append({
+    email = c[2].strip().lower()
+
+    # Smart address detection
+    address_parts = c[3].strip().split()
+    cleaned_address_parts = []
+    for part in address_parts:
+        if len(part) == 2 and part.isalpha():
+            cleaned_address_parts.append(part.upper())
+        else:
+            cleaned_address_parts.append(part.title())
+    address = " ".join(cleaned_address_parts)
+
+    formatted_contacts.append({
         "name": name,
         "phone": phone,
+        "email": email,
         "address": address
     })
