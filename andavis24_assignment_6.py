@@ -37,10 +37,8 @@ for i in contacts:
     for char in phone:
         if char.isdigit():
             digits_only += char
-    if len(digits_only) == 10:
+
         phone = f"({digits_only[:3]}) {digits_only[3:6]}-{digits_only[6:]}"
-    else:
-        phone = phone.strip()
 
     # --- Email cleaning ---
     # Strip spaces and make all characters lowercase
