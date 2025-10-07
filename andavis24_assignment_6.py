@@ -15,4 +15,14 @@ while True:
         break
     else:
         part = entry.split("|")
-        contacts.append(part)      
+        contacts.append(part)
+
+formatted_contacts = []
+
+for i in contacts:
+    name = " ".join(c[0].strip().split()).title()
+
+    address = " ".join(c[3].strip().split()).title()
+
+    cleaned_contacts.append({"name": name,"address": address})
+
