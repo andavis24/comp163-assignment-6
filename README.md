@@ -25,3 +25,7 @@ String Methods Used
 Key Takeaway
 
 Demonstrates mastery of Python string manipulation, data cleaning, and formatted output.
+
+AI Usage
+
+No AI was used for this project
